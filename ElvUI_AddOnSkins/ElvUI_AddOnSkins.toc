@@ -1,0 +1,12 @@
+## Interface: 50400
+## Author: Bunny, Azilroka, Sortokk, Apollyon
+## Version: 5.4.8-1.01
+## Title: |cff00dd91E|r|cffe5e3e3lvUI|r |cff00dd91A|r|cffe5e3e3ddOn|r |cff00dd91S|r|cffe5e3e3kins|r
+## RequiredDeps: ElvUI
+
+Locales.lua
+Settings\Load_Settings.xml
+ElvUI_AddOnSkins.lua
+Utilities.lua
+Skins\Load_Skins.xml
+Modules\Load_Modules.xml
