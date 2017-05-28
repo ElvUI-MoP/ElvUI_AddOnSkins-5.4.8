@@ -1,4 +1,5 @@
 local E, L, V, P, G = unpack(ElvUI)
+local AS = E:GetModule("AddOnSkins")
 local S = E:GetModule("Skins")
 
 local function LoadSkin()
@@ -56,8 +57,7 @@ local function LoadSkin()
 	for i = 1, #buttons do
 		local button = buttons[i]
 		if button then
-			button:GetNormalTexture():SetDesaturated(true)
-			button:GetHighlightTexture():SetDesaturated(true)
+			AS:Desaturate(button)
 		end
 	end
 

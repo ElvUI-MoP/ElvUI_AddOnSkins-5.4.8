@@ -43,8 +43,8 @@ local function LoadSkin()
 	Spy_MainWindow.CountButton.text:SetText("!")
 	Spy_MainWindow.CountButton:Size(18)
 
-	Spy_MainWindow.DragBottomRight:SetAlpha(0.4)
-	Spy_MainWindow.DragBottomLeft:SetAlpha(0.4)
+	Spy_MainWindow.DragBottomLeft:SetNormalTexture(nil)
+	Spy_MainWindow.DragBottomRight:SetNormalTexture(nil)
 
 	hooksecurefunc(Spy, "ShowMapTooltip", function()
 		if(Spy.MapTooltip) then
