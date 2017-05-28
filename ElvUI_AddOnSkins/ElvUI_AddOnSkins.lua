@@ -15,6 +15,7 @@ local addonList = {
 	"BattlePetBreedID",
 	"Clique",
 	"DBM",
+	"MacroToolkit",
 	"Overachiever",
 	"PetTracker",
 	"PlateBuffs",

@@ -8,6 +8,7 @@ V.addOnSkins = {
 	BattlePetBreedID = true,
 	Clique = true,
 	DBM = true,
+	MacroToolkit = true,
 	Overachiever = true,
 	PetTracker = true,
 	PlateBuffs = true,
