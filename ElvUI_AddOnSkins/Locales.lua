@@ -15,7 +15,6 @@ L["Embed Settings"] = true;
 L["Embed Type"] = true;
 L["Hide Chat Frame"] = true;
 L["Left Panel"] = true;
-L["Misc Options"] = true;
 L["Right Panel"] = true;
 L["Single"] = true;
 L["Settings to control Embedded AddOns\n\nAvailable Embeds: Omen | Skada | Recount"] = true;
@@ -24,6 +23,7 @@ L["Skada Template Gloss"] = true;
 L["Skada Title Template"] = true;
 L["Skada Title Template Gloss"] = true;
 L["WeakAura Cooldowns"] = true;
+L["WorldState Frame"] = true;
 
 if GetLocale() == "enUS" then return end
 
@@ -42,7 +42,6 @@ if L then
 	L["Embed Type"] = true;
 	L["Hide Chat Frame"] = "Chatfenster ausblenden"
 	L["Left Panel"] = true;
-	L["Misc Options"] = true;
 	L["Right Panel"] = true;
 	L["Single"] = true;
 	L["Settings to control Embedded AddOns\n\nAvailable Embeds: Omen | Skada | Recount"] = "Einstellungen für eingebettete Addons\n\nVerfügbare Addons: Omen | Skada | Recount"
@@ -51,6 +50,7 @@ if L then
 	L["Skada Title Template"] = true;
 	L["Skada Title Template Gloss"] = true;
 	L["WeakAura Cooldowns"] = "WeakAura Abklingzeiten"
+	L["WorldState Frame"] = true;
 end
 
 -- Spanish
@@ -68,7 +68,6 @@ if L then
 	L["Embed Type"] = true;
 	L["Hide Chat Frame"] = true;
 	L["Left Panel"] = true;
-	L["Misc Options"] = true;
 	L["Right Panel"] = true;
 	L["Single"] = true;
 	L["Settings to control Embedded AddOns\n\nAvailable Embeds: Omen | Skada | Recount"] = true;
@@ -77,6 +76,7 @@ if L then
 	L["Skada Title Template"] = true;
 	L["Skada Title Template Gloss"] = true;
 	L["WeakAura Cooldowns"] = true;
+	L["WorldState Frame"] = true;
 end
 
 -- French
@@ -94,7 +94,6 @@ if L then
 	L["Embed Type"] = true;
 	L["Hide Chat Frame"] = "Cacher le panneau de discussion"
 	L["Left Panel"] = true;
-	L["Misc Options"] = true;
 	L["Right Panel"] = true;
 	L["Single"] = true;
 	L["Settings to control Embedded AddOns\n\nAvailable Embeds: Omen | Skada | Recount"] = "Réglages pour controler les intégrations d'AddOns\n\nIntégrations disponible: Omen | Skada | Recount"
@@ -103,6 +102,7 @@ if L then
 	L["Skada Title Template"] = true;
 	L["Skada Title Template Gloss"] = true;
 	L["WeakAura Cooldowns"] = true;
+	L["WorldState Frame"] = true;
 end
 
 -- Korean
@@ -120,7 +120,6 @@ if L then
 	L["Embed Type"] = true;
 	L["Hide Chat Frame"] = true;
 	L["Left Panel"] = true;
-	L["Misc Options"] = true;
 	L["Right Panel"] = true;
 	L["Single"] = true;
 	L["Settings to control Embedded AddOns\n\nAvailable Embeds: Omen | Skada | Recount"] = true;
@@ -129,6 +128,7 @@ if L then
 	L["Skada Title Template"] = true;
 	L["Skada Title Template Gloss"] = true;
 	L["WeakAura Cooldowns"] = true;
+	L["WorldState Frame"] = true;
 end
 
 -- Portuguese
@@ -146,7 +146,6 @@ if L then
 	L["Embed Type"] = true;
 	L["Hide Chat Frame"] = true;
 	L["Left Panel"] = true;
-	L["Misc Options"] = true;
 	L["Right Panel"] = true;
 	L["Single"] = true;
 	L["Settings to control Embedded AddOns\n\nAvailable Embeds: Omen | Skada | Recount"] = true;
@@ -155,6 +154,7 @@ if L then
 	L["Skada Title Template"] = true;
 	L["Skada Title Template Gloss"] = true;
 	L["WeakAura Cooldowns"] = true;
+	L["WorldState Frame"] = true;
 end
 
 -- Russian
@@ -172,7 +172,6 @@ if L then
 	L["Embed Type"] = "Тип встраивания"
 	L["Hide Chat Frame"] = "Скрыть фрейм чата"
 	L["Left Panel"] = "Левое окно"
-	L["Misc Options"] = true;
 	L["Right Panel"] = "Правое окно"
 	L["Single"] = "Одинарный"
 	L["Settings to control Embedded AddOns\n\nAvailable Embeds: Omen | Skada | Recount"] = "Настройки для конктроля встроенных аддонов\n\nДоступны для встраивания: Omen | Skada | Recount"
@@ -181,6 +180,7 @@ if L then
 	L["Skada Title Template"] = true;
 	L["Skada Title Template Gloss"] = true;
 	L["WeakAura Cooldowns"] = true;
+	L["WorldState Frame"] = true;
 end
 
 --Chinese (China, simplified)
@@ -198,7 +198,6 @@ if L then
 	L["Embed Type"] = true;
 	L["Hide Chat Frame"] = true;
 	L["Left Panel"] = true;
-	L["Misc Options"] = true;
 	L["Right Panel"] = true;
 	L["Single"] = true;
 	L["Settings to control Embedded AddOns\n\nAvailable Embeds: Omen | Skada | Recount"] = true;
@@ -207,6 +206,7 @@ if L then
 	L["Skada Title Template"] = true;
 	L["Skada Title Template Gloss"] = true;
 	L["WeakAura Cooldowns"] = true;
+	L["WorldState Frame"] = true;
 end
 
 --Chinese (Taiwan, traditional)
@@ -224,7 +224,6 @@ if L then
 	L["Embed Type"] = true;
 	L["Hide Chat Frame"] = true;
 	L["Left Panel"] = true;
-	L["Misc Options"] = true;
 	L["Right Panel"] = true;
 	L["Single"] = true;
 	L["Settings to control Embedded AddOns\n\nAvailable Embeds: Omen | Skada | Recount"] = true;
@@ -233,4 +232,5 @@ if L then
 	L["Skada Title Template"] = true;
 	L["Skada Title Template Gloss"] = true;
 	L["WeakAura Cooldowns"] = true;
+	L["WorldState Frame"] = true;
 end

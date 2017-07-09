@@ -1,7 +1,6 @@
 local E, L, V, P, G = unpack(ElvUI)
 local AS = E:GetModule("AddOnSkins")
 
-local select = select
 local pairs = pairs
 
 local EnumerateFrames = EnumerateFrames
@@ -144,31 +143,4 @@ function AS:FindFrameByPoint(point1, relativeTo, point2, x, y, multipleFrames)
 	end
 
 	return frame
-end
-
-function AS:Desaturate(frame, point)
-	for i = 1, frame:GetNumRegions() do
-		local region = select(i, frame:GetRegions())
-		if region:IsObjectType("Texture") then
-			local Texture = region:GetTexture()
-			if type(Texture) == "string" and strlower(Texture) == "interface\\dialogframe\\ui-dialogbox-corner" then
-				region:SetTexture(nil)
-				region:Kill()
-			else
-				region:SetDesaturated(true)
-			end
-		end
-	end
-
-	frame:HookScript("OnUpdate", function(self)
-		if self:GetNormalTexture() then
-			self:GetNormalTexture():SetDesaturated(true)
-		end
-		if self:GetPushedTexture() then
-			self:GetPushedTexture():SetDesaturated(true)
-		end
-		if self:GetHighlightTexture() then
-			self:GetHighlightTexture():SetDesaturated(true)
-		end
-	end)
 end
