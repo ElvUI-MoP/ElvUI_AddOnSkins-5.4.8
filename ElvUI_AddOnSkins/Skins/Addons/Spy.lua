@@ -49,7 +49,7 @@ local function LoadSkin()
 	Spy_MainWindow.CountButton.backdrop:SetAllPoints()
 	Spy_MainWindow.CountButton.text:SetText("!")
 	Spy_MainWindow.CountButton.text:FontTemplate(nil, 14, "OUTLINE")
-	Spy_MainWindow.CountButton.text:Point("CENTER", 2, 0)
+	Spy_MainWindow.CountButton.text:Point("CENTER", 1, 0)
 	Spy_MainWindow.CountButton:Size(16)
 
 	Spy_MainWindow.DragBottomLeft:SetNormalTexture(nil)
