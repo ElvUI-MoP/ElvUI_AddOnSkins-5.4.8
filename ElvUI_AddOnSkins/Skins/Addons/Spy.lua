@@ -8,12 +8,16 @@ local SquareButton_SetIcon = SquareButton_SetIcon
 local function LoadSkin()
 	if(not E.private.addOnSkins.Spy) then return end
 
-	Spy_MainWindow:StripTextures()
-	Spy_MainWindow:SetTemplate("Transparent")
-
 	Spy_AlertWindow:StripTextures()
 	Spy_AlertWindow:SetTemplate("Transparent")
 	Spy_AlertWindow:Point("TOP", UIParent, "TOP", 0, -130)
+
+	Spy.AlertWindow.Title:FontTemplate(nil, 12)
+	Spy.AlertWindow.Name:FontTemplate(nil, 12)
+	Spy.AlertWindow.Location:FontTemplate(nil, 12)
+
+	Spy_MainWindow:StripTextures()
+	Spy_MainWindow:SetTemplate("Transparent")
 
 	for i = 1, 10 do
 		local bar = _G["Spy_MainWindow_Bar"..i]
