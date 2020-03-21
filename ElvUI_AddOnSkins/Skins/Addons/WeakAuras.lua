@@ -2,25 +2,25 @@ local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
 local function LoadSkin()
-	if(not E.private.addOnSkins.WeakAuras) then return end
+	if not E.private.addOnSkins.WeakAuras then return end
 
 	local function Skin_WeakAuras(frame, ftype)
-		if(not frame.backdrop) then
+		if not frame.backdrop then
 			frame:CreateBackdrop("Transparent")
 			frame.icon:SetTexCoord(unpack(E.TexCoords))
 			frame.icon.SetTexCoord = E.noop
 		end
 
-		if(ftype == "aurabar") then
-			if(not E.db.addOnSkins.weakAuraAuraBar) then
+		if ftype == "aurabar" then
+			if not E.db.addOnSkins.weakAuraAuraBar then
 				frame.backdrop:Hide()
 			else
 				frame.backdrop:Show()
 			end
 		end
 
-		if(ftype == "icon") then
-			if(E.db.addOnSkins.weakAuraIconCooldown) then E:RegisterCooldown(frame.cooldown) end
+		if ftype == "icon" then
+			if E.db.addOnSkins.weakAuraIconCooldown then E:RegisterCooldown(frame.cooldown) end
 		end
 	end
 

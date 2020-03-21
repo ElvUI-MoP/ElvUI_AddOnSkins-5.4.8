@@ -1,13 +1,14 @@
 local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
+local AS = E:GetModule("AddOnSkins")
+local EMB = E:GetModule("EmbedSystem")
 
 local function LoadSkin()
-	if(not E.private.addOnSkins.Skada) then return end
+	if not E.private.addOnSkins.Skada then return end
 
-	local SkadaDisplayBar = Skada.displays["bar"]
+	local db = E.db.addOnSkins.skada
 
-	hooksecurefunc(SkadaDisplayBar, "AddDisplayOptions", function(_, win, options)
-		options.baroptions.args.barspacing = nil
+	hooksecurefunc(Skada.displays.bar, "AddDisplayOptions", function(_, _, options)
 		options.titleoptions.args.texture = nil
 		options.titleoptions.args.bordertexture = nil
 		options.titleoptions.args.thickness = nil
@@ -16,96 +17,107 @@ local function LoadSkin()
 		options.windowoptions = nil
 	end)
 
-	hooksecurefunc(SkadaDisplayBar, "ApplySettings", function(_, win)
+	hooksecurefunc(Skada.displays.bar, "ApplySettings", function(_, win)
 		local skada = win.bargroup
-		skada:SetSpacing(1)
-		skada:SetFrameLevel(5)
-		skada:SetBackdrop(nil)
 
-		if(win.db.enabletitle) then
+		-- Skada Title Frame
+		if win.db.enabletitle then
 			skada.button:SetBackdrop(nil)
-			if(not skada.button.backdrop) then
+
+			if not skada.button.backdrop then
 				skada.button:CreateBackdrop()
+			end
+
+			if skada.button.backdrop then
 				skada.button.backdrop:SetFrameLevel(skada.button:GetFrameLevel())
-			end
-			if(E.db.addOnSkins.skadaTitleTemplate == "NONE") then
-				skada.button.backdrop:SetBackdrop(nil)
-			else
-				skada.button.backdrop:SetTemplate(E.db.addOnSkins.skadaTitleTemplate, E.db.addOnSkins.skadaTitleTemplate == "Default" and E.db.addOnSkins.skadaTitleTemplateGloss or false)
+				skada.button.backdrop:SetTemplate(db.titleTemplate, db.titleTemplate == "Default" and db.titleTemplateGloss or false)
+				skada.button.backdrop:ClearAllPoints()
+
+				if win.db.reversegrowth then
+					skada.button.backdrop:Point("TOPLEFT", skada.button, "TOPLEFT", -E.Border, -2)
+					skada.button.backdrop:Point("BOTTOMRIGHT", skada.button, "BOTTOMRIGHT", E.Border, -1)
+				else
+					skada.button.backdrop:Point("TOPLEFT", skada.button, "TOPLEFT", -E.Border, 1)
+					skada.button.backdrop:Point("BOTTOMRIGHT", skada.button, "BOTTOMRIGHT", E.Border, 2)
+				end
+
+				if not db.titleBackdrop then
+					skada.button.backdrop:Hide()
+				else
+					skada.button.backdrop:Show()
+				end
 			end
 		end
-		if(not skada.backdrop) then
-			if(E.db.addOnSkins.skadaTemplate == "NONE") then
-				skada:SetBackdrop(nil)
-			else
-				skada:SetTemplate(E.db.addOnSkins.skadaTemplate, E.db.addOnSkins.skadaTemplate == "Default" and E.db.addOnSkins.skadaTemplateGloss or false)
-			end
+
+		-- Skada Frame
+		skada:SetBackdrop(nil)
+		if not skada.backdrop then
+			skada:CreateBackdrop()
 		end
-		if(skada.backdrop) then
+
+		if skada.backdrop then
+			skada.backdrop:SetTemplate(db.template, db.template == "Default" and db.templateGloss or false)
 			skada.backdrop:ClearAllPoints()
-			if(win.db.reversegrowth) then
-				skada.backdrop:SetPoint("LEFT", skada.button, "LEFT", -E.Border, 0)
-				skada.backdrop:SetPoint("RIGHT", skada.button, "RIGHT", E.Border, 0)
-				skada.backdrop:SetPoint("BOTTOM", skada.button, "TOP", 0, win.db.enabletitle and (E.Spacing) or -win.db.barheight - E.Border)
+
+			if win.db.reversegrowth then
+				skada.backdrop:Point("TOPLEFT", skada, "TOPLEFT", -E.Border, 0)
+				skada.backdrop:Point("BOTTOMRIGHT", skada, "BOTTOMRIGHT", E.Border, -1)
 			else
-				skada.backdrop:SetPoint("LEFT", skada.button, "LEFT", -E.Border, 0)
-				skada.backdrop:SetPoint("RIGHT", skada.button, "RIGHT", E.Border, 0)
-				skada.backdrop:SetPoint("TOP", skada.button, "BOTTOM", 0, win.db.enabletitle and -(E.Spacing) or win.db.barheight + E.Border)
+				skada.backdrop:Point("TOPLEFT", skada, "TOPLEFT", -E.Border, E.Border)
+				skada.backdrop:Point("BOTTOMRIGHT", skada, "BOTTOMRIGHT", E.Border, 0)
+			end
+
+			if not db.backdrop then
+				skada.backdrop:Hide()
+			else
+				skada.backdrop:Show()
 			end
 		end
 
 		for i, data in ipairs(win.dataset) do
-			if(data.id) then
+			if data.id then
 				local barid = data.id
 				local bar = win.bargroup:GetBar(barid)
 
-				if(data.class and win.db.classicons and CLASS_ICON_TCOORDS[data.class]) then
+				if data.class and win.db.classicons and CLASS_ICON_TCOORDS[data.class] then
 					bar:SetIconWithCoord("Interface\\WorldStateFrame\\Icons-Classes", CLASS_ICON_TCOORDS[data.class])
 				end
 			end
 		end
 	end)
 
-	local module = E:GetModule("EmbedSystem")
+
 	hooksecurefunc(Skada, "CreateWindow", function()
-		if(module:CheckAddOn("Skada")) then
-			module:Skada()
-		end
+		if AS:CheckAddOn("Skada") then EMB:EmbedSkada() end
 	end)
 
 	hooksecurefunc(Skada, "DeleteWindow", function()
-		if(module:CheckAddOn("Skada")) then
-			module:Skada()
-		end
+		if AS:CheckAddOn("Skada") then EMB:EmbedSkada() end
 	end)
-	
 	hooksecurefunc(Skada, "UpdateDisplay", function()
-		if(module:CheckAddOn("Skada") and not InCombatLockdown()) then
-			module:Skada()
-		end
+		if AS:CheckAddOn("Skada") and not InCombatLockdown() then EMB:EmbedSkada() end
 	end)
 
-	hooksecurefunc(Skada, "SetTooltipPosition", function(self, tt, frame)
-		local p = self.db.profile.tooltippos
-		if(p == "default") then
-			if(not E:HasMoverBeenMoved("TooltipMover")) then
-				if(ElvUI_ContainerFrame and ElvUI_ContainerFrame:IsShown()) then
-					tt:SetPoint("BOTTOMRIGHT", ElvUI_ContainerFrame, "TOPRIGHT", 0, 18)
-				elseif(RightChatPanel:GetAlpha() == 1 and RightChatPanel:IsShown()) then
-					tt:SetPoint("BOTTOMRIGHT", RightChatPanel, "TOPRIGHT", 0, 18)
+	hooksecurefunc(Skada, "SetTooltipPosition", function(self, tt)
+		if self.db.profile.tooltippos == "default" then
+			if not E:HasMoverBeenMoved("TooltipMover") then
+				if ElvUI_ContainerFrame and ElvUI_ContainerFrame:IsShown() then
+					tt:Point("BOTTOMRIGHT", ElvUI_ContainerFrame, "TOPRIGHT", 0, 18)
+				elseif RightChatPanel:GetAlpha() == 1 and RightChatPanel:IsShown() then
+					tt:Point("BOTTOMRIGHT", RightChatPanel, "TOPRIGHT", 0, 18)
 				else
-					tt:SetPoint("BOTTOMRIGHT", RightChatPanel, "BOTTOMRIGHT", 0, 18)
+					tt:Point("BOTTOMRIGHT", RightChatPanel, "BOTTOMRIGHT", 0, 18)
 				end
 			else
 				local point = E:GetScreenQuadrant(TooltipMover)
-				if(point == "TOPLEFT") then
-					tt:SetPoint("TOPLEFT", TooltipMover)
-				elseif(point == "TOPRIGHT") then
-					tt:SetPoint("TOPRIGHT", TooltipMover)
-				elseif(point == "BOTTOMLEFT" or point == "LEFT") then
-					tt:SetPoint("BOTTOMLEFT", TooltipMover)
+				if point == "TOPLEFT" then
+					tt:Point("TOPLEFT", TooltipMover)
+				elseif point == "TOPRIGHT" then
+					tt:Point("TOPRIGHT", TooltipMover)
+				elseif point == "BOTTOMLEFT" or point == "LEFT" then
+					tt:Point("BOTTOMLEFT", TooltipMover)
 				else
-					tt:SetPoint("BOTTOMRIGHT", TooltipMover)
+					tt:Point("BOTTOMRIGHT", TooltipMover)
 				end
 			end
 	   end

@@ -1,156 +1,178 @@
-local E, L, V, P, G = unpack(ElvUI);
-local S = E:GetModule("Skins");
+local E, L, V, P, G = unpack(ElvUI)
+local S = E:GetModule("Skins")
+
+local _G = _G
+local unpack = unpack
 
 local function LoadSkin()
-	if(not E.private.addOnSkins.BindPad) then return; end
+	if not E.private.addOnSkins.BindPad then return end
+
+	BindPadFrame:StripTextures(true)
+	BindPadFrame:CreateBackdrop("Transparent")
+	BindPadFrame.backdrop:Point("TOPLEFT", 10, -11)
+	BindPadFrame.backdrop:Point("BOTTOMRIGHT", -31, 71)
 
 	local function HandleMicroButton(button)
-		local pushed = button:GetPushedTexture();
-		local normal = button:GetNormalTexture();
-		local disabled = button:GetDisabledTexture();
+		local pushed = button:GetPushedTexture()
+		local normal = button:GetNormalTexture()
+		local disabled = button:GetDisabledTexture()
 
-		button:GetHighlightTexture():Kill();
+		button:GetHighlightTexture():Kill()
 
-		local f = CreateFrame("Frame", nil, button);
-		f:SetPoint("BOTTOMLEFT", button, "BOTTOMLEFT", 2, 0);
-		f:SetPoint("TOPRIGHT", button, "TOPRIGHT", -2, -28);
-		f:SetTemplate("Default");
-		f:SetFrameLevel(button:GetFrameLevel() - 1);
+		local frame = CreateFrame("Frame", nil, button)
+		frame:SetPoint("BOTTOMLEFT", button, "BOTTOMLEFT", 2, 0)
+		frame:SetPoint("TOPRIGHT", button, "TOPRIGHT", -2, -28)
+		frame:SetTemplate()
+		frame:SetFrameLevel(button:GetFrameLevel() - 1)
 
-		pushed:SetTexCoord(0.17, 0.87, 0.5, 0.908);
-		pushed:SetInside(f);
+		pushed:SetTexCoord(0.17, 0.87, 0.5, 0.908)
+		pushed:SetInside(frame)
 
-		normal:SetTexCoord(0.17, 0.87, 0.5, 0.908);
-		normal:SetInside(f);
+		normal:SetTexCoord(0.17, 0.87, 0.5, 0.908)
+		normal:SetInside(frame)
 
-		if(disabled) then
-			disabled:SetTexCoord(0.17, 0.87, 0.5, 0.908);
-			disabled:SetInside(f);
+		if disabled then
+			disabled:SetTexCoord(0.17, 0.87, 0.5, 0.908)
+			disabled:SetInside(frame)
 		end
 	end
 
-	BindPadFrame:StripTextures(true);
-	BindPadFrame:CreateBackdrop("Transparent");
-	BindPadFrame.backdrop:Point("TOPLEFT", 10, -11);
-	BindPadFrame.backdrop:Point("BOTTOMRIGHT", -31, 71);
-
-	S:HandleScrollBar(BindPadScrollFrameScrollBar)
 	for i = 1, 42 do
-		local slot = _G["BindPadSlot" .. i];
-		local slotIcon = _G["BindPadSlot" .. i .. "Icon"];
-		local slotAddButton = _G["BindPadSlot" .. i .. "AddButton"];
+		local slot = _G["BindPadSlot"..i]
+		local icon = _G["BindPadSlot"..i.."Icon"]
+		local border = _G["BindPadSlot"..i.."Border"]
+		local button = _G["BindPadSlot"..i.."AddButton"]
 
-		slot:SetNormalTexture(nil);
-		slot:SetTemplate("Defaylt", true);
-		slot:StyleButton(nil, nil, true);
+		if slot then
+		slot:SetNormalTexture(nil)
+		slot:SetTemplate("Defaylt", true)
+		slot:StyleButton(nil, nil, true)
 
-		--[[slotIcon:SetInside();
-		slotIcon:SetTexCoord(unpack(E.TexCoords));
-		slotIcon:SetDrawLayer("ARTWORK");
+		icon:SetInside()
+		icon:SetTexCoord(unpack(E.TexCoords))
+		icon:SetDrawLayer("ARTWORK")
 
-		_G["BindPadSlot" .. i .. "Border"]:SetTexture(1, 1, 0, 0.3);
-		_G["BindPadSlot" .. i .. "Border"]:SetInside();
+		border:SetTexture(1, 1, 0, 0.3)
+		border:SetInside()
 
-		slotAddButton:SetNormalTexture(nil);
-		slotAddButton:SetPushedTexture(nil);
-		slotAddButton:SetDisabledTexture(nil);
-		slotAddButton:SetHighlightTexture(nil);
+		button:SetNormalTexture(nil)
+		button:SetPushedTexture(nil)
+		button:SetDisabledTexture(nil)
+		button:SetHighlightTexture(nil)
 
-		slotAddButton.Text = slotAddButton:CreateFontString(nil, "OVERLAY");
-		slotAddButton.Text:FontTemplate(nil, 22);
-		slotAddButton.Text:Point("CENTER", 0, 0);
-		slotAddButton.Text:SetText("+");]]
+		button.Text = button:CreateFontString(nil, "OVERLAY")
+		button.Text:FontTemplate(nil, 22)
+		button.Text:Point("CENTER", 0, 0)
+		button.Text:SetText("+")
+		end
 	end
 
 	for i = 1, 4 do
-		local tab = _G["BindPadFrameTab" .. i];
-		S:HandleTab(tab);
-		tab.backdrop:Point("TOPLEFT", 3, -8);
-		tab.backdrop:Point("BOTTOMRIGHT", -3, -1);
+		local tab = _G["BindPadFrameTab"..i]
+
+		tab:StripTextures()
+		tab.backdrop = CreateFrame("Frame", nil, tab)
+		tab.backdrop:SetTemplate("Default", true)
+		tab.backdrop:SetFrameLevel(tab:GetFrameLevel() - 1)
+		tab.backdrop:Point("TOPLEFT", 3, -7)
+		tab.backdrop:Point("BOTTOMRIGHT", -2, -1)
+
+		tab:HookScript("OnEnter", S.SetModifiedBackdrop)
+		tab:HookScript("OnLeave", S.SetOriginalBackdrop)
 	end
+
+	BindPadFrameTab1:Point("TOPLEFT", 80, -39)
 
 	for i = 1, 5 do
-		local tab = _G["BindPadProfileTab" .. i];
-		local tabSubIcon = _G["BindPadProfileTab" .. i .. "SubIcon"];
-		tab:StripTextures();
-		tab:SetTemplate("Defaylt", true);
-		tab:StyleButton(nil, true);
+		local tab = _G["BindPadProfileTab"..i]
+		local icon = _G["BindPadProfileTab"..i.."SubIcon"]
+		local bg = _G["BindPadProfileTab"..i.."Background"]
 
-		tab:GetNormalTexture():SetInside();
-		tab:GetNormalTexture():SetTexCoord(unpack(E.TexCoords));
-		tab:GetNormalTexture():SetDrawLayer("ARTWORK");
+		tab:StripTextures()
+		tab:SetTemplate("Defaylt", true)
+		tab:StyleButton(nil, true)
 
-		tabSubIcon:SetTexCoord(unpack(E.TexCoords));
+		tab:GetNormalTexture():SetInside()
+		tab:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
+		tab:GetNormalTexture():SetDrawLayer("ARTWORK")
+
+		icon:SetTexCoord(unpack(E.TexCoords))
+
+		bg:SetAlpha(0)
 	end
 
-	S:HandleCloseButton(BindPadFrameCloseButton);
+	S:HandleCloseButton(BindPadFrameCloseButton)
 
-	S:HandleCheckBox(BindPadFrameCharacterButton);
-	S:HandleCheckBox(BindPadFrameSaveAllKeysButton);
-	S:HandleCheckBox(BindPadFrameShowHotkeyButton);
+	S:HandleCheckBox(BindPadFrameCharacterButton)
+	S:HandleCheckBox(BindPadFrameSaveAllKeysButton)
+	S:HandleCheckBox(BindPadFrameShowHotkeyButton)
 
-	S:HandleButton(BindPadFrameExitButton);
+	S:HandleScrollBar(BindPadScrollFrameScrollBar)
 
-	HandleMicroButton(BindPadFrameOpenSpellBookButton);
-	HandleMicroButton(BindPadFrameOpenMacroButton);
-	HandleMicroButton(BindPadFrameOpenBagButton);
+	S:HandleButton(BindPadFrameExitButton)
 
-	BindPadBindFrame:StripTextures(true);
+	HandleMicroButton(BindPadFrameOpenSpellBookButton)
+	HandleMicroButton(BindPadFrameOpenMacroButton)
+	HandleMicroButton(BindPadFrameOpenBagButton)
+
+	BindPadBindFrame:StripTextures(true)
 	BindPadBindFrame:SetTemplate("Transparent")
+	BindPadBindFrame:Size(350, 150)
 
-	S:HandleCloseButton(BindPadBindFrameCloseButton);
+	S:HandleCloseButton(BindPadBindFrameCloseButton)
 
-	S:HandleButton(BindPadBindFrameExitButton);
-	S:HandleButton(BindPadBindFrameUnbindButton);
+	S:HandleButton(BindPadBindFrameExitButton)
+	S:HandleButton(BindPadBindFrameUnbindButton)
 
-	BindPadMacroPopupFrame:StripTextures();
-	BindPadMacroPopupFrame:CreateBackdrop("Transparent");
-	BindPadMacroPopupFrame.backdrop:Point("TOPLEFT", 10, -9);
-	BindPadMacroPopupFrame.backdrop:Point("BOTTOMRIGHT", -7, 9);
+	BindPadMacroPopupFrame:StripTextures()
+	BindPadMacroPopupFrame:CreateBackdrop("Transparent")
+	BindPadMacroPopupFrame.backdrop:Point("TOPLEFT", 10, -9)
+	BindPadMacroPopupFrame.backdrop:Point("BOTTOMRIGHT", -7, 9)
 
-	BindPadMacroPopupNameLeft:SetTexture(nil);
-	BindPadMacroPopupNameMiddle:SetTexture(nil);
-	BindPadMacroPopupNameRight:SetTexture(nil);
-	S:HandleEditBox(BindPadMacroPopupEditBox);
+	BindPadMacroPopupNameLeft:SetTexture(nil)
+	BindPadMacroPopupNameMiddle:SetTexture(nil)
+	BindPadMacroPopupNameRight:SetTexture(nil)
+	S:HandleEditBox(BindPadMacroPopupEditBox)
 
-	BindPadMacroPopupScrollFrame:StripTextures();
-	S:HandleScrollBar(BindPadMacroPopupScrollFrameScrollBar);
+	BindPadMacroPopupScrollFrame:StripTextures()
+	S:HandleScrollBar(BindPadMacroPopupScrollFrameScrollBar)
 
 	for i = 1, 20 do
-		local button = _G["BindPadMacroPopupButton" .. i];
-		local buttonIcon = _G["BindPadMacroPopupButton" .. i .. "Icon"];
+		local button = _G["BindPadMacroPopupButton"..i]
+		local buttonIcon = _G["BindPadMacroPopupButton"..i.."Icon"]
 
-		button:StripTextures();
-		button:StyleButton(nil, true);
-		button:SetTemplate("Default", true);
+		button:StripTextures()
+		button:StyleButton(nil, true)
+		button:SetTemplate("Default", true)
 
-		buttonIcon:SetInside();
-		buttonIcon:SetTexCoord(unpack(E.TexCoords));
+		buttonIcon:SetInside()
+		buttonIcon:SetTexCoord(unpack(E.TexCoords))
 	end
 
-	S:HandleButton(BindPadMacroPopupCancelButton);
-	S:HandleButton(BindPadMacroPopupOkayButton);
+	S:HandleButton(BindPadMacroPopupCancelButton)
+	S:HandleButton(BindPadMacroPopupOkayButton)
 
-	--BindPadMacroTextFrame:StripTextures(true);
-	--BindPadMacroTextFrame:CreateBackdrop("Transparent");
-	--BindPadMacroTextFrame.backdrop:Point("TOPLEFT", 10, -11);
-	--BindPadMacroTextFrame.backdrop:Point("BOTTOMRIGHT", -31, 71);
+	BindPadMacroFrame:StripTextures(true)
+	BindPadMacroFrame:CreateBackdrop("Transparent")
+	BindPadMacroFrame.backdrop:Point("TOPLEFT", 10, -11)
+	BindPadMacroFrame.backdrop:Point("BOTTOMRIGHT", -31, 71)
 
-	--BindPadMacroTextFrameSelectedMacroButton:StripTextures();
-	--BindPadMacroTextFrameSelectedMacroButton:SetTemplate("Defaylt", true);
-	--BindPadMacroTextFrameSelectedMacroButtonIcon:SetInside();
-	--BindPadMacroTextFrameSelectedMacroButtonIcon:SetTexCoord(unpack(E.TexCoords));
+	BindPadMacroFrameSlotButton:StripTextures()
+	BindPadMacroFrameSlotButton:SetTemplate("Defaylt", true)
 
-	--S:HandleScrollBar(BindPadMacroTextFrameScrollFrameScrollBar);
+	BindPadMacroFrameSlotButtonIcon:SetInside()
+	BindPadMacroFrameSlotButtonIcon:SetTexCoord(unpack(E.TexCoords))
 
-	--BindPadMacroTextFrameTextBackground:SetTemplate("Defaylt");
+	S:HandleScrollBar(BindPadMacroFrameScrollFrameScrollBar)
 
-	--S:HandleButton(BindPadMacroTextFrameEditButton);
-	--S:HandleButton(BindPadMacroTextFrameTestButton);
-	--S:HandleButton(BindPadMacroTextFrameExitButton);
-	--S:HandleButton(BindPadMacroDeleteButton);
+	BindPadMacroFrameTextBackground:SetTemplate("Defaylt")
 
-	--S:HandleCloseButton(BindPadMacroTextFrameCloseButton);
+	S:HandleButton(BindPadMacroFrameEditButton)
+	S:HandleButton(BindPadMacroFrameTestButton)
+	S:HandleButton(BindPadMacroFrameExitButton)
+	S:HandleButton(BindPadMacroDeleteButton)
+
+	S:HandleCloseButton(BindPadMacroFrameCloseButton)
 end
 
-S:AddCallbackForAddon("BindPad", "BindPad", LoadSkin);
+S:AddCallbackForAddon("BindPad", "BindPad", LoadSkin)

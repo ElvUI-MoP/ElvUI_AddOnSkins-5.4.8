@@ -1,5 +1,6 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
 	<Script file="_NPCScan.lua"/>
+	<Script file="AckisRecipeList.lua"/>
 	<Script file="ACP.lua"/>
 	<Script file="AtlasLoot.lua"/>
 	<Script file="BattlePetBreedID.lua"/>

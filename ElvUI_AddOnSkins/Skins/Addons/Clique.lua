@@ -2,7 +2,7 @@ local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
 local function LoadSkin()
-	if(not E.private.addOnSkins.Clique) then return end
+	if not E.private.addOnSkins.Clique then return end
 
 	CliqueDialog:StripTextures()
 	CliqueDialog:SetTemplate("Transparent")
@@ -17,8 +17,10 @@ local function LoadSkin()
 	CliqueConfigBindAlert:SetTemplate("Transparent")
 
 	for i = 1, 2 do
-		_G["CliqueConfigPage"..i]:StripTextures()
-		_G["CliqueConfigPage"..i]:SetTemplate("Transparent")
+		local page = _G["CliqueConfigPage"..i]
+
+		page:StripTextures()
+		page:SetTemplate("Transparent")
 	end
 
 	CliqueSpellTab:StyleButton(nil, true)
@@ -42,7 +44,7 @@ local function LoadSkin()
 			local Icon = _G["CliqueRow"..i.."Icon"]
 			local Bind = _G["CliqueRow"..i.."Bind"]
 
-			if(Row) then
+			if Row then
 				Row:CreateBackdrop()
 				Row.backdrop:SetOutside(Icon)
 
@@ -52,7 +54,7 @@ local function LoadSkin()
 				Row:GetHighlightTexture():SetTexture(1, 1, 1, 0.3)
 
 				Bind:ClearAllPoints()
-				if(Row == CliqueRow1) then
+				if Row == CliqueRow1 then
 					Bind:SetPoint("RIGHT", Row, 8, 0)
 				else
 					Bind:SetPoint("RIGHT", Row, -9, 0)
@@ -61,7 +63,7 @@ local function LoadSkin()
 		end
 
 		CliqueRow1:ClearAllPoints()
-		CliqueRow1:SetPoint("TOPLEFT", 5, - (CliqueConfigPage1Column1:GetHeight() + 3))
+		CliqueRow1:Point("TOPLEFT", 5, - (CliqueConfigPage1Column1:GetHeight() + 3))
 	end)
 
 	CliqueConfigPage1Column1:StripTextures()
@@ -76,21 +78,20 @@ local function LoadSkin()
 
 	CliqueConfigBindAlertArrow:Kill()
 	CliqueConfigBindAlert:ClearAllPoints()
-	CliqueConfigBindAlert:Point("TOPLEFT", SpellBookFrame, "TOPLEFT", 0, 45)
+	CliqueConfigBindAlert:Point("TOPLEFT", SpellBookFrame, "TOPLEFT", 0, E.PixelMode and 45 or 47)
 
-	CliqueConfigPage1ButtonSpell:SetPoint("BOTTOMLEFT", CliqueConfig, "BOTTOMLEFT", 3, 2)
-	CliqueConfigPage1ButtonOptions:SetPoint("BOTTOMRIGHT", CliqueConfig, "BOTTOMRIGHT", -5, 2)
-	CliqueConfigPage2ButtonSave:SetPoint("BOTTOMLEFT", CliqueConfig,"BOTTOMLEFT", 3, 2)
-	CliqueConfigPage2ButtonCancel:SetPoint("BOTTOMRIGHT", CliqueConfig, "BOTTOMRIGHT", -5, 2)
+	CliqueConfigPage1ButtonSpell:Point("BOTTOMLEFT", 3, 2)
+	CliqueConfigPage1ButtonOptions:Point("BOTTOMRIGHT", -5, 2)
+	CliqueConfigPage2ButtonSave:Point("BOTTOMLEFT", 3, 2)
+	CliqueConfigPage2ButtonCancel:Point("BOTTOMRIGHT", -5, 2)
 
 	S:HandleScrollBar(CliqueScrollFrameScrollBar)
-
-	S:HandleCloseButton(CliqueConfigCloseButton)
 
 	CliqueTabAlert:StripTextures()
 	CliqueTabAlert:SetTemplate()
 
 	S:HandleCloseButton(CliqueTabAlertClose)
+	S:HandleCloseButton(CliqueConfigCloseButton)
 end
 
 S:AddCallbackForAddon("Clique", "Clique", LoadSkin)

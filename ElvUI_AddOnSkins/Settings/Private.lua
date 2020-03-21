@@ -3,6 +3,7 @@
 V.addOnSkins = {
 	-- Addon Skins
 	_NPCScan = true,
+	AckisRecipeList = true,
 	ACP = true,
 	AtlasLoot = true,
 	BattlePetBreedID = true,

@@ -2,7 +2,7 @@ local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
 local function LoadSkin()
-	if(not E.private.addOnSkins.PetTracker) then return end
+	if not E.private.addOnSkins.PetTracker then return end
 
 	E:Delay(1, function()
 		PetTrackerProgressBar1.Overlay:StripTextures()
@@ -10,7 +10,7 @@ local function LoadSkin()
 		PetTrackerProgressBar1.Overlay.backdrop:SetBackdropColor(0, 0, 0, 0)
 
 		for i = 1, PetTracker.MaxQuality do
-			PetTrackerProgressBar1[i]:SetStatusBarTexture(E["media"].normTex)
+			PetTrackerProgressBar1[i]:SetStatusBarTexture(E.media.normTex)
 		end
 	end)
 
@@ -71,31 +71,33 @@ end
 S:AddCallbackForAddon("PetTracker", "PetTracker", LoadSkin)
 
 local function LoadSkin2()
-	if(not E.private.addOnSkins.PetTracker) then return end
+	if not E.private.addOnSkins.PetTracker then return end
 
 	PetTrackerSwap:HookScript("OnUpdate", function(self)
-		if not self.IsSkinned then
+		if not self.isSkinned then
 			self:StripTextures()
 			self:SetTemplate("Transparent")
 			S:HandleCloseButton(PetTrackerSwapCloseButton)
-			self.IsSkinned = true
+
+			self.isSkinned = true
 		end
 		PetTrackerSwapInset:StripTextures()
 
 		for i = 1, self:GetNumChildren() do
 			local Region = select(i, self:GetChildren())
-			if Region and Region:IsObjectType("Frame") and not Region.IsSkinned then
+			if Region and Region:IsObjectType("Frame") and not Region.isSkinned then
 				local a, b, c, d, e = Region:GetPoint()
 				if a == "TOP" and c == "TOP" and d == 0 and e == 2 then
 					Region:Kill()
-					Region.IsSkinned = true
+
+					Region.isSkinned = true
 				end
 			end
 		end
 
 		for i = 1, 6 do
 			local Slot = _G["PetTrackerBattleSlot"..i]
-			if not Slot.IsSkinned then
+			if not Slot.isSkinned then
 				Slot:SetTemplate("Transparent")
 				Slot:CreateBackdrop()
 				Slot.backdrop:SetOutside(Slot.Icon)
@@ -117,17 +119,17 @@ local function LoadSkin2()
 
 				Slot.Highlight:StripTextures()
 				Slot.Highlight:HookScript("OnShow", function() Slot:SetBackdropBorderColor(1, 1, 0) end)
-				Slot.Highlight:HookScript("OnHide", function() Slot:SetBackdropBorderColor(unpack(E["media"].bordercolor)) end)
+				Slot.Highlight:HookScript("OnHide", function() Slot:SetBackdropBorderColor(unpack(E.media.bordercolor)) end)
 
 				Slot.Health:StripTextures()
 				Slot.Health:CreateBackdrop()
-				Slot.Health:SetStatusBarTexture(E["media"].normTex)
+				Slot.Health:SetStatusBarTexture(E.media.normTex)
 
 				Slot.Xp:StripTextures()
 				Slot.Xp:CreateBackdrop()
-				Slot.Xp:SetStatusBarTexture(E["media"].normTex)
+				Slot.Xp:SetStatusBarTexture(E.media.normTex)
 
-				Slot.IsSkinned = true
+				Slot.isSkinned = true
 			end
 		end
 
@@ -145,7 +147,7 @@ local function LoadSkin2()
 				Ability:StyleButton()
 				Ability.Icon:SetTexCoord(unpack(E.TexCoords))
 
-				Ability.IsSkinned = true
+				Ability.isSkinned = true
 			end
 		end
 	end)
@@ -154,13 +156,13 @@ end
 S:AddCallbackForAddon("PetTracker_Switcher", "PetTracker_Switcher", LoadSkin2)
 
 local function LoadSkin3()
-	if(not E.private.addOnSkins.PetTracker) then return end
+	if not E.private.addOnSkins.PetTracker then return end
 
 	S:HandleCheckBox(PetTracker_JournalTrackToggle)
 	S:HandleTab(PetJournalParentTab3)
 
 	PetTrackerTamerJournal:HookScript("OnShow", function(self)
-		if not self.IsSkinned then
+		if not self.isSkinned then
 			PetTrackerTamerJournalCard:StripTextures()
 			PetTrackerTamerJournalCard:SetTemplate("Transparent")
 			PetTrackerTamerJournalCard.quest.ring:Kill()
@@ -187,13 +189,16 @@ local function LoadSkin3()
 			S:HandleButton(PetTrackerTamerJournal.History.LoadButton)
 
 			for i = 1, 4 do
-				if _G["PetTrackerTamerJournalCardLoot"..i] then
-					S:HandleItemButton(_G["PetTrackerTamerJournalCardLoot"..i])
+				local button = _G["PetTrackerTamerJournalCardLoot"..i]
+
+				if button then
+					S:HandleItemButton(button)
 				end
 			end
 
 			for i = 1, 11 do
 				local button = _G["PetTrackerTamerJournalListButton"..i]
+
 				if button then
 					S:HandleItemButton(button)
 					button:StyleButton()
@@ -210,7 +215,7 @@ local function LoadSkin3()
 				end
 			end
 
-			self.IsSkinned = true
+			self.isSkinned = true
 
 			for i = 1, 3 do
 				local Slot = _G["PetTrackerJournalSlot"..i]
@@ -239,7 +244,6 @@ local function LoadSkin3()
 
 					Slot.Type:Size(70, 40)
 					Slot.Type.Icon:SetTexCoord(0.200, 0.710, 0.746, 0.917)
-					Slot.IsSkinned = true
 
 					local Tab = PetTrackerTamerJournal["Tab"..i]
 					if Tab then
@@ -250,6 +254,8 @@ local function LoadSkin3()
 						Tab.Highlight:SetTexture(1, 1, 1, 0.30)
 						Tab.Highlight:SetAllPoints(Tab.Icon)
 					end
+
+					Slot.isSkinned = true
 				end
 
 				for i = 1, 15 do

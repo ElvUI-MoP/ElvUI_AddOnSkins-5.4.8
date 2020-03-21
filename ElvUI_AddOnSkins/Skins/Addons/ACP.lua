@@ -8,6 +8,7 @@ local function LoadSkin()
 		for i = 1, 20, 1 do
 			local checkbox = _G["ACP_AddonListEntry"..i.."Enabled"]
 			local collapse = _G["ACP_AddonListEntry"..i.."Collapse"]
+
 			checkbox:Point("LEFT", 5, 0)
 			checkbox:Size(26)
 
