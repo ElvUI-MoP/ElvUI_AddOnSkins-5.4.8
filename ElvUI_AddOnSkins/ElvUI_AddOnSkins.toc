@@ -1,6 +1,6 @@
 ## Interface: 50400
 ## Author: Bunny, Azilroka, Sortokk, Apollyon
-## Version: 5.4.8-1.01
+## Version: 1.2
 ## Title: |cff00fcceE|r|cffe5e3e3lvUI|r |cff00fcceA|r|cffe5e3e3ddOn|r |cff00fcceS|r|cffe5e3e3kins|r
 ## RequiredDeps: ElvUI
 
