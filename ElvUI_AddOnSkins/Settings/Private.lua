@@ -1,7 +1,6 @@
 ﻿local E, L, V, P, G = unpack(ElvUI)
 
 V.addOnSkins = {
-	-- Addon Skins
 	_NPCScan = true,
 	AckisRecipeList = true,
 	ACP = true,
@@ -18,7 +17,4 @@ V.addOnSkins = {
 	Skada = true,
 	Spy = true,
 	WeakAuras = true,
-
-	--Blizzard Skins
-	Blizzard_WorldStateFrame = true
 }
