@@ -19,6 +19,7 @@ AS.addonList = {
 	["BattlePetBreedID"]	= "1.1.1b",
 	["Clique"]				= "50400-1.0.0",
 	["DBM"]					= "5.4.19-33",
+	["Gatherer"]			= "4.4.1",
 	["MacroToolkit"]		= "5.4.0.4",
 	["Overachiever"]		= "0.73",
 	["PetTracker"]			= "5.4.26",
