@@ -5,6 +5,7 @@ V.addOnSkins = {
 	AckisRecipeList = true,
 	ACP = true,
 	AtlasLoot = true,
+	Auctionator = true,
 	BattlePetBreedID = true,
 	Clique = true,
 	DBM = true,

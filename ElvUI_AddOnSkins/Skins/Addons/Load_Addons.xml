@@ -3,6 +3,7 @@
 	<Script file="AckisRecipeList.lua"/>
 	<Script file="ACP.lua"/>
 	<Script file="AtlasLoot.lua"/>
+	<Script file="Auctionator.lua"/>
 	<Script file="BattlePetBreedID.lua"/>
 	<Script file="Clique.lua"/>
 	<Script file="DBM.lua"/>

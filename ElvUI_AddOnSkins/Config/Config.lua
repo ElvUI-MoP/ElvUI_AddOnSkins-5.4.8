@@ -15,6 +15,7 @@ AS.addonList = {
 	["AckisRecipeList"]		= "3.0.5",
 	["ACP"]					= "3.4.9",
 	["AtlasLoot"]			= "7.07.03",
+	["Auctionator"]			= "3.1.5",
 	["BattlePetBreedID"]	= "1.1.1b",
 	["Clique"]				= "50400-1.0.0",
 	["DBM"]					= "5.4.19-33",
