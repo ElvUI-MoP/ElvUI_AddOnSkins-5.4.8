@@ -18,5 +18,6 @@ V.addOnSkins = {
 	Recount = true,
 	Skada = true,
 	Spy = true,
+	TrinketMenu = true,
 	WeakAuras = true,
 }

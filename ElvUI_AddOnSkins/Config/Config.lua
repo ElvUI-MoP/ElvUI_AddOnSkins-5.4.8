@@ -28,6 +28,7 @@ AS.addonList = {
 	["Recount"]				= "r1269",
 	["Skada"]				= "1.4-19",
 	["Spy"]					= "3.1.6",
+	["TrinketMenu"]			= "5.0.4",
 	["WeakAuras"]			= "2.0.8",
 }
 

@@ -16,5 +16,6 @@
 	<Script file="Recount.lua"/>
 	<Script file="Skada.lua"/>
 	<Script file="Spy.lua"/>
+	<Script file="TrinketMenu.lua"/>
 	<Script file="WeakAuras.lua"/>
 </Ui>
