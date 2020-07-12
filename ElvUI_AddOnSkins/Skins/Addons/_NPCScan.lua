@@ -50,8 +50,22 @@ local function LoadSkin()
 	S:HandleDropDownBox(_NPCScanConfigSoundDropdown)
 
 	for i = 1, 10 do
- 	   S:HandleTab(_G["_NPCScanSearchTab" .. i])
+		local tab = _G["_NPCScanSearchTab"..i]
+
+		S:HandleTab(tab)
+
+		for i = 1, tab:GetNumChildren() do
+			local child = select(i, tab:GetChildren())
+
+			if child and child:IsObjectType("CheckButton") then
+				S:HandleCheckBox(child)
+			end
+		end
 	end
+
+	S:HandleEditBox(_NPCScanSearchNpcIDEditBox)
+	S:HandleEditBox(_NPCScanSearchNpcWorldEditBox)
+	S:HandleEditBox(_NPCScanSearchNpcNameEditBox)
 end
 
 S:AddCallbackForAddon("_NPCScan", "_NPCScan", LoadSkin)
