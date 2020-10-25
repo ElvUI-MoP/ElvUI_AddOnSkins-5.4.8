@@ -1,27 +1,38 @@
 local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
+local _G = _G
+local select, unpack = select, unpack
+
 local function LoadSkin()
 	if not E.private.addOnSkins.Clique then return end
 
-	CliqueDialog:StripTextures()
-	CliqueDialog:SetTemplate("Transparent")
+	CliqueConfigInset:StripTextures()
 
 	CliqueConfig:StripTextures()
 	CliqueConfig:SetTemplate("Transparent")
 
+	CliqueTabAlert:StripTextures()
+	CliqueTabAlert:SetTemplate()
+
+	CliqueDialog:StripTextures()
+	CliqueDialog:SetTemplate("Transparent")
+
+	for i = 1, CliqueDialog:GetNumChildren() do
+		local child = select(i, CliqueDialog:GetChildren())
+		if child.GetPushedTexture and child:GetPushedTexture() and not child:GetName() then
+			S:HandleCloseButton(child)
+			child:Point("TOPRIGHT", 2, 2)
+		end
+	end
+
 	CliqueClickGrabber:StripTextures()
-	CliqueClickGrabber:SetTemplate("Transparent")
+	CliqueClickGrabber:CreateBackdrop()
+	CliqueClickGrabber.backdrop:Point("TOPLEFT", 2, -2)
+	CliqueClickGrabber.backdrop:Point("BOTTOMRIGHT", -24, 2)
 
 	CliqueConfigBindAlert:StripTextures()
 	CliqueConfigBindAlert:SetTemplate("Transparent")
-
-	for i = 1, 2 do
-		local page = _G["CliqueConfigPage"..i]
-
-		page:StripTextures()
-		page:SetTemplate("Transparent")
-	end
 
 	CliqueSpellTab:StyleButton(nil, true)
 	CliqueSpellTab:SetTemplate("Default", true)
@@ -29,66 +40,67 @@ local function LoadSkin()
 	CliqueSpellTab:GetNormalTexture():SetInside()
 	select(1, CliqueSpellTab:GetRegions()):Hide()
 
-	S:HandleButton(CliqueConfigPage1ButtonSpell)
-	S:HandleButton(CliqueConfigPage1ButtonOther)
-	S:HandleButton(CliqueConfigPage1ButtonOptions)
-	S:HandleButton(CliqueDialogButtonBinding)
-	S:HandleButton(CliqueDialogButtonAccept)
-	S:HandleButton(CliqueConfigPage2ButtonBinding)
-	S:HandleButton(CliqueConfigPage2ButtonSave)
-	S:HandleButton(CliqueConfigPage2ButtonCancel)
-
-	CliqueConfigPage1:SetScript("OnShow", function()
+	CliqueConfigPage1:CreateBackdrop("Transparent")
+	CliqueConfigPage1:HookScript("OnShow", function()
 		for i = 1, 12 do
-			local Row = _G["CliqueRow"..i]
-			local Icon = _G["CliqueRow"..i.."Icon"]
-			local Bind = _G["CliqueRow"..i.."Bind"]
+			local row = _G["CliqueRow"..i]
+			local icon = _G["CliqueRow"..i.."Icon"]
+			local bind = _G["CliqueRow"..i.."Bind"]
 
-			if Row then
-				Row:CreateBackdrop()
-				Row.backdrop:SetOutside(Icon)
+			if row and not row.isSkinned then
+				row:CreateBackdrop()
+				row.backdrop:SetOutside(icon)
+				S:HandleButtonHighlight(row)
 
-				Icon:SetTexCoord(unpack(E.TexCoords))
-				Icon:SetParent(Row.backdrop)
+				icon:SetTexCoord(unpack(E.TexCoords))
+				icon:SetParent(row.backdrop)
 
-				Row:GetHighlightTexture():SetTexture(1, 1, 1, 0.3)
+				bind:ClearAllPoints()
+				bind:Point("RIGHT", row, -4, 0)
 
-				Bind:ClearAllPoints()
-				if Row == CliqueRow1 then
-					Bind:SetPoint("RIGHT", Row, 8, 0)
-				else
-					Bind:SetPoint("RIGHT", Row, -9, 0)
-				end
+				row.isSkinned = true
 			end
 		end
-
-		CliqueRow1:ClearAllPoints()
-		CliqueRow1:Point("TOPLEFT", 5, - (CliqueConfigPage1Column1:GetHeight() + 3))
 	end)
 
 	CliqueConfigPage1Column1:StripTextures()
-	CliqueConfigPage1Column2:StripTextures()
-
 	CliqueConfigPage1Column1:StyleButton()
+	CliqueConfigPage1Column1:Width(190)
+
+	CliqueConfigPage1Column2:StripTextures()
 	CliqueConfigPage1Column2:StyleButton()
+	CliqueConfigPage1Column2:Width(117)
 
-	CliqueConfigPage1_VSlider:StripTextures(true)
+	CliqueConfigPage1_VSlider:StripTextures()
+	S:HandleSliderFrame(CliqueConfigPage1_VSlider)
+	CliqueConfigPage1_VSlider:Point("TOPRIGHT", -3, -20)
+	CliqueConfigPage1_VSlider:Point("BOTTOMRIGHT", 0, 10)
 
-	CliqueConfigInset:StripTextures()
+	S:HandleButton(CliqueConfigPage1ButtonSpell)
+	CliqueConfigPage1ButtonSpell:Point("BOTTOMLEFT", CliqueConfig, 4, 2)
+
+	S:HandleButton(CliqueConfigPage1ButtonOther)
+	CliqueConfigPage1ButtonOther:Point("TOPLEFT", CliqueConfigPage1ButtonSpell, "TOPRIGHT", 22, 0)
+	S:HandleButton(CliqueDialogButtonBinding)
+	S:HandleButton(CliqueDialogButtonAccept)
+
+	S:HandleButton(CliqueConfigPage2ButtonBinding)
+	CliqueConfigPage2ButtonBinding:Point("CENTER", 0, -5)
+
+	S:HandleButton(CliqueConfigPage1ButtonOptions)
+	CliqueConfigPage1ButtonOptions:Point("BOTTOMRIGHT", CliqueConfig, -6, 2)
+
+	S:HandleButton(CliqueConfigPage2ButtonSave)
+	CliqueConfigPage2ButtonSave:Point("BOTTOMLEFT", CliqueConfig, 4, 2)
+
+	S:HandleButton(CliqueConfigPage2ButtonCancel)
+	CliqueConfigPage2ButtonCancel:Point("BOTTOMRIGHT", CliqueConfig, -6, 2)
 
 	CliqueConfigBindAlertArrow:Kill()
 	CliqueConfigBindAlert:ClearAllPoints()
-	CliqueConfigBindAlert:Point("TOPLEFT", SpellBookFrame, "TOPLEFT", 0, E.PixelMode and 45 or 47)
-
-	CliqueConfigPage1ButtonSpell:Point("BOTTOMLEFT", 3, 2)
-	CliqueConfigPage1ButtonOptions:Point("BOTTOMRIGHT", -5, 2)
-	CliqueConfigPage2ButtonSave:Point("BOTTOMLEFT", 3, 2)
-	CliqueConfigPage2ButtonCancel:Point("BOTTOMRIGHT", -5, 2)
+	CliqueConfigBindAlert:Point("TOPLEFT", SpellBookFrame, 0, E.PixelMode and 45 or 47)
 
 	S:HandleScrollBar(CliqueScrollFrameScrollBar)
-
-	CliqueTabAlert:StripTextures()
-	CliqueTabAlert:SetTemplate()
 
 	S:HandleCloseButton(CliqueTabAlertClose)
 	S:HandleCloseButton(CliqueConfigCloseButton)

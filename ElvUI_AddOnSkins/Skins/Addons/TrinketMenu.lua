@@ -38,9 +38,6 @@ local function LoadSkin()
 		local item = _G["TrinketMenu_Trinket"..i]
 		local icon = _G["TrinketMenu_Trinket"..i.."Icon"]
 		local queue = _G["TrinketMenu_Trinket"..i.."Queue"]
-		local timer = _G["TrinketMenu_Trinket"..i.."Time"]
-		local cooldown = _G["TrinketMenu_Trinket"..i.."Cooldown"]
-		local hotKey = _G["TrinketMenu_Trinket"..i.."HotKey"]
 		local color = AB.db.fontColor
 
 		item:StripTextures()
@@ -68,13 +65,13 @@ local function LoadSkin()
 		queue:SetTexCoord(unpack(E.TexCoords))
 		queue:Point("TOPLEFT", 3, -3)
 
-		timer:Kill()
+		_G["TrinketMenu_Trinket"..i.."Time"]:Kill()
 
-		hotKey:SetTextColor(color.r, color.g, color.b)
+		_G["TrinketMenu_Trinket"..i.."HotKey"]:SetTextColor(color.r, color.g, color.b)
 
 		AB:FixKeybindText(item)
 
-		E:RegisterCooldown(cooldown)
+		E:RegisterCooldown(_G["TrinketMenu_Trinket"..i.."Cooldown"])
 	end
 
 	-- Menu Frame
@@ -90,8 +87,6 @@ local function LoadSkin()
 	for i = 1, 30 do
 		local item = _G["TrinketMenu_Menu"..i]
 		local icon = _G["TrinketMenu_Menu"..i.."Icon"]
-		local timer = _G["TrinketMenu_Menu"..i.."Time"]
-		local cooldown = _G["TrinketMenu_Menu"..i.."Cooldown"]
 
 		item:StripTextures()
 		item:SetTemplate()
@@ -102,18 +97,16 @@ local function LoadSkin()
 		icon:SetTexCoord(unpack(E.TexCoords))
 		icon:SetInside()
 
-		timer:Kill()
+		_G["TrinketMenu_Menu"..i.."Time"]:Kill()
 
-		E:RegisterCooldown(cooldown)
+		E:RegisterCooldown(_G["TrinketMenu_Menu"..i.."Cooldown"])
 	end
 
 	hooksecurefunc(TrinketMenu, "BuildMenu", function()
 		for i = 1, 30 do
 			if not TrinketMenu.BaggedTrinkets[i] then return end
-			local item = _G["TrinketMenu_Menu"..i]
-			local link = TrinketMenu.BaggedTrinkets[i].id
 
-			TrinketMenuQualityColors(link, item)
+			TrinketMenuQualityColors(_G["TrinketMenu_Menu"..i], TrinketMenu.BaggedTrinkets[i].id)
 		end
 	end)
 
@@ -223,8 +216,14 @@ local function LoadSkin()
 	S:HandleButton(TrinketMenu_ProfilesCancel)
 
 	S:HandleSliderFrame(TrinketMenu_OptColumnsSlider)
-	--S:HandleSliderFrame(TrinketMenu_OptMainScaleSlider)
-	--S:HandleSliderFrame(TrinketMenu_OptMenuScaleSlider)
+
+	S:HandleSliderFrame(TrinketMenu_OptMainScaleSlider)
+	TrinketMenu_OptMainScaleSlider:Point("TOPLEFT", TrinketMenu_OptSetColumnsText, "BOTTOMLEFT", 0, -35)
+	TrinketMenu_OptMainScaleSliderText:Point("TOPLEFT", TrinketMenu_OptSetColumnsText, "BOTTOMLEFT", 0, -22)
+
+	S:HandleSliderFrame(TrinketMenu_OptMenuScaleSlider)
+	TrinketMenu_OptMenuScaleSlider:Point("TOPLEFT", TrinketMenu_OptMainScaleSlider, "BOTTOMLEFT", 0, -18)
+	TrinketMenu_OptMenuScaleSliderText:Point("TOPLEFT", TrinketMenu_OptMainScaleSliderText, "BOTTOMLEFT", 0, -18)
 
 	for i = 1, 7 do
 		local item = _G["TrinketMenu_Profile"..i]

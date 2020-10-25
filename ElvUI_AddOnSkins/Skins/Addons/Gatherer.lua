@@ -1,5 +1,6 @@
 local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
+local TT = E:GetModule("Tooltip")
 
 local _G = _G
 local pairs, select = pairs, select
@@ -7,11 +8,17 @@ local pairs, select = pairs, select
 local function LoadSkin()
 	if not E.private.addOnSkins.Gatherer then return end
 
+	-- World Map Button
+	S:HandleButton(Gatherer_WorldMapDisplay)
+	Gatherer_WorldMapDisplay:SetScale(1)
+	Gatherer_WorldMapDisplay:Size(100, 18)
+
 	-- Report Frame
 	GathererReportFrame:StripTextures()
 	GathererReportFrame:CreateBackdrop("Transparent")
 	GathererReportFrame.backdrop:Point("TOPLEFT", 0, -28)
 	GathererReportFrame:Height(562)
+	GathererReportFrame:EnableMouse(true)
 
 	GathererReportFrame.Drag:StripTextures()
 	GathererReportFrame.Drag:SetTemplate(nil, true)
@@ -24,7 +31,7 @@ local function LoadSkin()
 	GathererReportFrame.SearchBox:Size(230, 20)
 	GathererReportFrame.SearchBox:ClearAllPoints()
 	GathererReportFrame.SearchBox:Point("TOPLEFT", GathererReportFrame, 8, -36)
-	GathererReportFrame.SearchBox:SetScript("OnEscapePressed", function(self) self:ClearFocus() end)
+	GathererReportFrame.SearchBox:SetScript("OnEscapePressed", function(box) box:ClearFocus() end)
 
 	GathererReportFrame.Actions.SendEdit:StripTextures()
 	S:HandleEditBox(GathererReportFrame.Actions.SendEdit)
@@ -35,7 +42,7 @@ local function LoadSkin()
 			local region = select(j, child:GetRegions())
 
 			if region.IsObjectType and region:IsObjectType("Texture") then
-				if region.GetTexture and region:GetTexture() == "Interface\\Buttons\\UI-CheckBox-Up" then
+				if region.GetTexture and region:GetTexture() == [[Interface\Buttons\UI-CheckBox-Up]] then
 					S:HandleCheckBox(child)
 				end
 			end
@@ -45,7 +52,7 @@ local function LoadSkin()
 	GathererReportFrame.Results:StripTextures()
 	GathererReportFrame.Results:ClearAllPoints()
 	GathererReportFrame.Results:Point("TOPLEFT", GathererReportFrame.SearchBox, "BOTTOMLEFT", 0, -25)
-	GathererReportFrame.Results:Point("BOTTOMRIGHT", GathererReportFrame, "BOTTOMRIGHT", -150, 7)
+	GathererReportFrame.Results:Point("BOTTOMRIGHT", GathererReportFrame, -150, 7)
 
 	GathererReportFrame.Results:CreateBackdrop("Transparent")
 	GathererReportFrame.Results.backdrop:Point("TOPLEFT", 6, 0)
@@ -57,13 +64,13 @@ local function LoadSkin()
 	GathererResultsScrollScrollBar:Point("BOTTOMRIGHT", GathererReportFrame.Results, 0, 18)
 
 	for i = 1, 30 do
-		local frame = GathererReportFrame.Results[i].Highlight
+		GathererReportFrame.Results[i]:SetFrameLevel(GathererReportFrame.Results:GetFrameLevel() + 2)
 
-		local checked = frame:GetCheckedTexture()
+		local checked = GathererReportFrame.Results[i].Highlight:GetCheckedTexture()
 		checked:SetTexture(E.Media.Textures.Highlight)
 		checked:SetVertexColor(1, 0.80, 0.10, 0.35)
 
-		local highlight = frame:GetHighlightTexture()
+		local highlight = GathererReportFrame.Results[i].Highlight:GetHighlightTexture()
 		highlight:SetTexture(E.Media.Textures.Highlight)
 		highlight:SetVertexColor(1, 1, 1, 0.35)
 	end
@@ -109,6 +116,24 @@ local function LoadSkin()
 
 	GathererReportFrame.Actions.SendSelected:ClearAllPoints()
 	GathererReportFrame.Actions.SendSelected:Point("TOPLEFT", GathererReportFrame.Actions.SendEdit, "BOTTOMLEFT", 0, -10)
+
+	hooksecurefunc(Gatherer.MapNotes, "MapNoteOnEnter", function(frame)
+		if not Gatherer.Config.GetSetting("mainmap.tooltip.enable") then return end
+
+		local numTooltips = 0
+		for id in Gatherer.Storage.GetNodeGatherNames(Gatherer.ZoneTokens.GetZoneToken(frame.mapID), frame.gType, frame.index) do
+			local tooltip = Gatherer.Tooltip.GetTooltip(id)
+
+			if id ~= 1 then
+				tooltip:Point("TOPLEFT", Gatherer.Tooltip.GetTooltip(id - 1), "BOTTOMLEFT", 0, -2)
+			end
+
+			tooltip:SetFrameStrata("TOOLTIP")
+			TT:SetStyle(tooltip)
+
+			numTooltips = id
+		end
+	end)
 end
 
 S:AddCallbackForAddon("Gatherer", "Gatherer", LoadSkin)

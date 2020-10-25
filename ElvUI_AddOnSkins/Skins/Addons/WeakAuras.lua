@@ -12,15 +12,14 @@ local function LoadSkin()
 		end
 
 		if ftype == "aurabar" then
-			if not E.db.addOnSkins.weakAuraAuraBar then
-				frame.backdrop:Hide()
-			else
-				frame.backdrop:Show()
-			end
+			frame.backdrop:SetShown(E.db.addOnSkins.weakAuraAuraBar)
 		end
 
 		if ftype == "icon" then
-			if E.db.addOnSkins.weakAuraIconCooldown then E:RegisterCooldown(frame.cooldown) end
+			if E.db.addOnSkins.weakAuraIconCooldown then
+				frame.cooldown.CooldownOverride = "global"
+				E:RegisterCooldown(frame.cooldown)
+			end
 		end
 	end
 
@@ -50,8 +49,7 @@ local function LoadSkin()
 	end
 
 	for weakAura, _ in pairs(WeakAuras.regions) do
-		if(WeakAuras.regions[weakAura].regionType == "icon"
-		or WeakAuras.regions[weakAura].regionType == "aurabar") then
+		if WeakAuras.regions[weakAura].regionType == "icon" or WeakAuras.regions[weakAura].regionType == "aurabar" then
 			Skin_WeakAuras(WeakAuras.regions[weakAura].region, WeakAuras.regions[weakAura].regionType)
 		end
 	end

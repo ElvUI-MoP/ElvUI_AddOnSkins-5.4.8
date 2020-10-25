@@ -20,8 +20,8 @@ local function LoadSkin()
 		button:GetHighlightTexture():Kill()
 
 		local frame = CreateFrame("Frame", nil, button)
-		frame:SetPoint("BOTTOMLEFT", button, "BOTTOMLEFT", 2, 0)
-		frame:SetPoint("TOPRIGHT", button, "TOPRIGHT", -2, -28)
+		frame:Point("BOTTOMLEFT", button, 2, 0)
+		frame:Point("TOPRIGHT", button, -2, -28)
 		frame:SetTemplate()
 		frame:SetFrameLevel(button:GetFrameLevel() - 1)
 
@@ -37,42 +37,47 @@ local function LoadSkin()
 		end
 	end
 
-	for i = 1, 42 do
-		local slot = _G["BindPadSlot"..i]
-		local icon = _G["BindPadSlot"..i.."Icon"]
-		local border = _G["BindPadSlot"..i.."Border"]
-		local button = _G["BindPadSlot"..i.."AddButton"]
+	BindPadFrame:HookScript("OnShow", function()
+		for i = 1, 42 do
+			local slot = _G["BindPadSlot"..i]
 
-		if slot then
-		slot:SetNormalTexture(nil)
-		slot:SetTemplate("Defaylt", true)
-		slot:StyleButton(nil, nil, true)
+			if slot and not slot.isSkinned then
+				local icon = _G["BindPadSlot"..i.."Icon"]
+				local border = _G["BindPadSlot"..i.."Border"]
+				local button = _G["BindPadSlot"..i.."AddButton"]
 
-		icon:SetInside()
-		icon:SetTexCoord(unpack(E.TexCoords))
-		icon:SetDrawLayer("ARTWORK")
+				slot:SetNormalTexture(nil)
+				slot:SetTemplate(nil, true)
+				slot:StyleButton(nil, nil, true)
 
-		border:SetTexture(1, 1, 0, 0.3)
-		border:SetInside()
+				icon:SetInside()
+				icon:SetTexCoord(unpack(E.TexCoords))
+				icon:SetDrawLayer("ARTWORK")
 
-		button:SetNormalTexture(nil)
-		button:SetPushedTexture(nil)
-		button:SetDisabledTexture(nil)
-		button:SetHighlightTexture(nil)
+				border:SetTexture(1, 1, 0, 0.3)
+				border:SetInside()
 
-		button.Text = button:CreateFontString(nil, "OVERLAY")
-		button.Text:FontTemplate(nil, 22)
-		button.Text:Point("CENTER", 0, 0)
-		button.Text:SetText("+")
+				button:SetNormalTexture(nil)
+				button:SetPushedTexture(nil)
+				button:SetDisabledTexture(nil)
+				button:SetHighlightTexture(nil)
+
+				button.Text = button:CreateFontString(nil, "OVERLAY")
+				button.Text:FontTemplate(nil, 22)
+				button.Text:Point("CENTER", 0, 0)
+				button.Text:SetText("+")
+
+				slot.isSkinned = true
+			end
 		end
-	end
+	end)
 
 	for i = 1, 4 do
 		local tab = _G["BindPadFrameTab"..i]
 
 		tab:StripTextures()
 		tab.backdrop = CreateFrame("Frame", nil, tab)
-		tab.backdrop:SetTemplate("Default", true)
+		tab.backdrop:SetTemplate(nil, true)
 		tab.backdrop:SetFrameLevel(tab:GetFrameLevel() - 1)
 		tab.backdrop:Point("TOPLEFT", 3, -7)
 		tab.backdrop:Point("BOTTOMRIGHT", -2, -1)
@@ -89,7 +94,7 @@ local function LoadSkin()
 		local bg = _G["BindPadProfileTab"..i.."Background"]
 
 		tab:StripTextures()
-		tab:SetTemplate("Defaylt", true)
+		tab:SetTemplate(nil, true)
 		tab:StyleButton(nil, true)
 
 		tab:GetNormalTexture():SetInside()
@@ -106,6 +111,9 @@ local function LoadSkin()
 	S:HandleCheckBox(BindPadFrameCharacterButton)
 	S:HandleCheckBox(BindPadFrameSaveAllKeysButton)
 	S:HandleCheckBox(BindPadFrameShowHotkeyButton)
+
+	BindPadScrollFrame:StripTextures()
+	BindPadScrollFrame:CreateBackdrop("Transparent")
 
 	S:HandleScrollBar(BindPadScrollFrameScrollBar)
 
@@ -143,7 +151,7 @@ local function LoadSkin()
 
 		button:StripTextures()
 		button:StyleButton(nil, true)
-		button:SetTemplate("Default", true)
+		button:SetTemplate(nil, true)
 
 		buttonIcon:SetInside()
 		buttonIcon:SetTexCoord(unpack(E.TexCoords))
@@ -158,14 +166,14 @@ local function LoadSkin()
 	BindPadMacroFrame.backdrop:Point("BOTTOMRIGHT", -31, 71)
 
 	BindPadMacroFrameSlotButton:StripTextures()
-	BindPadMacroFrameSlotButton:SetTemplate("Defaylt", true)
+	BindPadMacroFrameSlotButton:SetTemplate(nil, true)
 
 	BindPadMacroFrameSlotButtonIcon:SetInside()
 	BindPadMacroFrameSlotButtonIcon:SetTexCoord(unpack(E.TexCoords))
 
 	S:HandleScrollBar(BindPadMacroFrameScrollFrameScrollBar)
 
-	BindPadMacroFrameTextBackground:SetTemplate("Defaylt")
+	BindPadMacroFrameTextBackground:SetTemplate()
 
 	S:HandleButton(BindPadMacroFrameEditButton)
 	S:HandleButton(BindPadMacroFrameTestButton)
@@ -173,6 +181,18 @@ local function LoadSkin()
 	S:HandleButton(BindPadMacroDeleteButton)
 
 	S:HandleCloseButton(BindPadMacroFrameCloseButton)
+
+	S:HandleNextPrevButton(BindPadShowLessSlotButton, "left", nil, true)
+	BindPadShowLessSlotButton:Size(24)
+
+	S:HandleNextPrevButton(BindPadShowMoreSlotButton, "right", nil, true)
+	BindPadShowMoreSlotButton:Size(24)
+
+	BindPadDialogFrame:StripTextures()
+	BindPadDialogFrame:SetTemplate("Transparent")
+
+	S:HandleButton(BindPadDialogFrame.okaybutton)
+	S:HandleButton(BindPadDialogFrame.cancelbutton)
 end
 
 S:AddCallbackForAddon("BindPad", "BindPad", LoadSkin)

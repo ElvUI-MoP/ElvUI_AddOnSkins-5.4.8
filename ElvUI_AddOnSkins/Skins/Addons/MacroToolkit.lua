@@ -7,7 +7,7 @@ local function LoadSkin()
 	S:HandleButton(MacroToolkitOpen)
 	MacroToolkitOpen:Width(83)
 	MacroToolkitOpen:Point("LEFT", MacroDeleteButton, "RIGHT", 2, 0)
-	
+
 	MacroNewButton:Point("BOTTOMRIGHT", -87, 4)
 end
 

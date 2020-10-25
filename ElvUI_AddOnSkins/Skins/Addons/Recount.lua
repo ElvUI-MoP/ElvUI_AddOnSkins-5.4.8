@@ -13,7 +13,7 @@ local function LoadSkin()
 		backdrop:Point("BOTTOMLEFT", frame, E.PixelMode and 1 or 0, E.PixelMode and 1 or 0)
 		backdrop:Point("TOPRIGHT", frame, E.PixelMode and -1 or 0, -(E.PixelMode and 31 or 30))
 		if frame == Recount.MainWindow then
-			backdrop:SetTemplate("Default")
+			backdrop:SetTemplate()
 		else
 			backdrop:SetTemplate("Transparent")
 		end

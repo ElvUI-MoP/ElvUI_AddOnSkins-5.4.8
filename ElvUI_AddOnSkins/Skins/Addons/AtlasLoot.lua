@@ -40,7 +40,6 @@ local function LoadSkin()
 	S:HandleScrollBar(AtlasLootDefaultFrame.ScrollFrame.ScrollBar)
 
 	AtlasLootDefaultFrame.ScrollFrame:HookScript("OnUpdate", function()
-
 		for i = 1, 30 do
 			local Button = _G["AtlasLootDefaultFrame_ScrollLine"..i]
 
@@ -171,7 +170,7 @@ local function LoadSkin()
 	AtlasLoot.ItemFrame.Switch:Point("BOTTOM", AtlasLoot.ItemFrame, "BOTTOM", -19, 23)
 
 	S:HandleCheckBox(AtlasLoot.ItemFrame.Filter)
-	AtlasLoot.ItemFrame.Filter:Point("BOTTOM", -90, -14)
+	AtlasLoot.ItemFrame.Filter:Point("BOTTOM", -105, -5)
 	AtlasLootFilterCheckText:SetTextColor(1, 1, 1)
 
 	S:HandleCheckBox(AtlasLoot.ItemFrame.Heroic)
@@ -183,8 +182,14 @@ local function LoadSkin()
 	AtlasLoot.ItemFrame.RaidFinder:Size(26)
 	AtlasLootItemsFrame_RaidFinderText:SetTextColor(1, 1, 1)
 
+	S:HandleCheckBox(AtlasLoot.ItemFrame.Flexible)
+	AtlasLoot.ItemFrame.Flexible:Size(26)
+	AtlasLoot.ItemFrame.Flexible:Point("TOPLEFT", AtlasLootItemsFrame_RaidFinder, "TOPRIGHT", 100, 0)
+	AtlasLootItemsFrame_FlexibleText:SetTextColor(1, 1, 1)
+
 	S:HandleCheckBox(AtlasLoot.ItemFrame.Thunderforged)
 	AtlasLoot.ItemFrame.Thunderforged:Size(26)
+	AtlasLoot.ItemFrame.Thunderforged:Point("TOPLEFT", AtlasLootItemsFrame_Flexible, "TOPRIGHT", 100, 0)
 	AtlasLootItemsFrame_ThunderforgedText:SetTextColor(1, 1, 1)
 
 	S:HandleNextPrevButton(AtlasLoot.ItemFrame.Next, nil, nil, true)
@@ -368,12 +373,7 @@ local function LoadSkin()
 			local child = select(j, Button:GetChildren())
 
 			if child then
-				child:StripTextures()
-				child:CreateBackdrop()
-
-				if child.GetHighlightTexture and child:GetHighlightTexture() then
-					child:StyleButton()
-				end
+				S:HandleItemButton(child)
 			end
 		end
 	end
